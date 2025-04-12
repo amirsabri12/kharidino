@@ -1,38 +1,39 @@
 import React from "react";
-import styles from "./Footer.module.scss";
-import { FaTelegramPlane, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import "./Footer.css";
 
 const Footer: React.FC = () => {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.logo}>
-        <img src="/logo.png" alt="Exo Game Logo" />
+    <footer className="footer">
+      <div className="footer__logo">
+        <img src="" alt="" />
+        <h2>kharidino |خریدی نو</h2>
       </div>
 
-      <div className={styles.contact}>
-        تماس با پشتیبانی: <a href="tel:02191007083">021-91007083</a>
+      <div className="footer__contact">
+        <p>تماس با پشتیبانی: <a href="tel:021154553">021154553</a></p>
+        <p>نشانی: تهران، </p>
       </div>
 
-      <div className={styles.address}>
-        تهران، تقاطع خیابان ولیعصر و طالقانی، مجتمع تجاری نور، طبقه همکف سوم تجاری، واحد ۸۰۲۸
-      </div>
-
-      <div className={styles.links}>
+      <div className="footer__links">
         <a href="#">اطلاعات</a>
         <a href="#">امکانات اضافی</a>
         <a href="#">حساب کاربری من</a>
         <a href="#">پرسش‌های متداول</a>
       </div>
 
-      <div className={styles.socials}>
-        <a href="#"><FaTelegramPlane /></a>
-        <a href="#"><FaInstagram /></a>
-        <a href="#"><FaLinkedin /></a>
-        <a href="#"><FaYoutube /></a>
+      <div className="footer__social">
+        <p>با ما در ارتباط باشید:</p>
+        <div className="icons">
+          <a href="#"><img src="telegram-icon.png" alt="Telegram" /></a>
+          <a href="#"><img src="instagram-icon.png" alt="Instagram" /></a>
+          <a href="#"><img src="aparat-icon.png" alt="Aparat" /></a>
+          <a href="#"><img src="linkedin-icon.png" alt="LinkedIn" /></a>
+          <a href="#"><img src="youtube-icon.png" alt="YouTube" /></a>
+        </div>
       </div>
 
-      <div className={styles.copyright}>
-        کلیه حقوق این وبسایت متعلق به شرکت آینده گستر‌ان زرین وانیا می‌باشد.
+      <div className="footer__rights">
+        <p>کلیه حقوق این وب‌سایت متعلق به شرکت ... است</p>
       </div>
     </footer>
   );
