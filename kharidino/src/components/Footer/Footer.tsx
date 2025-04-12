@@ -1,8 +1,20 @@
-import React from "react";
-import styles from "./Footer.module.scss";
-import { FaTelegramPlane, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import styles from "./Footer.module.css";
+import {
+  FaTelegramPlane,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
+import { ReactNode } from "react";
+import { Link } from "react-router";
 
-const Footer = () => {
+function Footer(): ReactNode {
+  const links = [
+    { id: 1, title: "اطلاعات" },
+    { id: 2, title: "امکانات اضافی" },
+    { id: 3, title: "حساب کاربری من" },
+    { id: 4, title: "پرسش‌های متداول" },
+  ];
   return (
     <footer className={styles.footer}>
       <div className={styles.logo}>
@@ -10,25 +22,32 @@ const Footer = () => {
       </div>
 
       <div className={styles.contact}>
-        تماس با پشتیبانی: <a href="tel:0123456789">0123456789</a>
+        تماس با پشتیبانی: <Link to="tel:0123456789">0123456789</Link>
       </div>
 
-      <div className={styles.address}>
-      آدرس
-      </div>
+      <div className={styles.address}>آدرس</div>
 
       <div className={styles.links}>
-        <a href="#">اطلاعات</a>
-        <a href="#">امکانات اضافی</a>
-        <a href="#">حساب کاربری من</a>
-        <a href="#">پرسش‌های متداول</a>
+        {links.map((link) => (
+          <Link key={link.id} to={"#"}>
+            {link.title}
+          </Link>
+        ))}
       </div>
 
       <div className={styles.socials}>
-        <a href="#"><FaTelegramPlane /></a>
-        <a href="#"><FaInstagram /></a>
-        <a href="#"><FaLinkedin /></a>
-        <a href="#"><FaYoutube /></a>
+        <Link to="#">
+          <FaTelegramPlane />
+        </Link>
+        <Link to="#">
+          <FaInstagram />
+        </Link>
+        <Link to="#">
+          <FaLinkedin />
+        </Link>
+        <Link to="#">
+          <FaYoutube />
+        </Link>
       </div>
 
       <div className={styles.copyright}>
@@ -36,6 +55,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

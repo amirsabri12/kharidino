@@ -2,7 +2,7 @@ import { ComponentProps, ReactNode } from "react";
 
 import clsx from "clsx";
 
-import styles from "./Button.module.scss";
+import styles from "./Button.module.css";
 
 type Shape = "rectangel" | "circle";
 type Variant = "solid" | "outlined";
