@@ -8,13 +8,14 @@ import {
 import { ReactNode } from "react";
 import { Link } from "react-router";
 
+const links = [
+  { href: "/Information", title: "اطلاعات" },
+  { href: "/Additional features", title: "امکانات اضافی" },
+  { href: "/My account", title: "حساب کاربری من" },
+  { href: "/Questions", title: "پرسش‌های متداول" },
+];
+
 function Footer(): ReactNode {
-  const links = [
-    { id: 1, title: "اطلاعات" },
-    { id: 2, title: "امکانات اضافی" },
-    { id: 3, title: "حساب کاربری من" },
-    { id: 4, title: "پرسش‌های متداول" },
-  ];
   return (
     <footer className={styles.footer}>
       <div className={styles.logo}>
@@ -25,13 +26,14 @@ function Footer(): ReactNode {
         تماس با پشتیبانی: <Link to="tel:0123456789">0123456789</Link>
       </div>
 
-      <div className={styles.address}>آدرس</div>
+      <div className={styles.address}>
+        آدرس : تهران، تقاطع خیابان ولیعصر و طالقانی، مجتمع تجاری نور، طبقه همکف
+        سوم تجاری، واحد ۸۰۲۸
+      </div>
 
       <div className={styles.links}>
         {links.map((link) => (
-          <Link key={link.id} to={"#"}>
-            {link.title}
-          </Link>
+          <Link to={link.href}>{link.title}</Link>
         ))}
       </div>
 
