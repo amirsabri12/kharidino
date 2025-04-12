@@ -24,11 +24,11 @@ const Footer: React.FC = () => {
       <div className="footer__social">
         <p>با ما در ارتباط باشید:</p>
         <div className="icons">
-          <a href="#"><img src="telegram-icon.png" alt="Telegram" /></a>
+         /* <a href="#"><img src="telegram-icon.png" alt="Telegram" /></a>
           <a href="#"><img src="instagram-icon.png" alt="Instagram" /></a>
           <a href="#"><img src="aparat-icon.png" alt="Aparat" /></a>
           <a href="#"><img src="linkedin-icon.png" alt="LinkedIn" /></a>
-          <a href="#"><img src="youtube-icon.png" alt="YouTube" /></a>
+          <a href="#"><img src="youtube-icon.png" alt="YouTube" /></a>*/
         </div>
       </div>
 
