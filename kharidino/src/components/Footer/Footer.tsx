@@ -2,19 +2,19 @@ import React from "react";
 import styles from "./Footer.module.scss";
 import { FaTelegramPlane, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.logo}>
-        <img src="/logo.png" alt="kharidino" />
+        <img src="/logo.png" alt="Exo Game Logo" />
       </div>
 
       <div className={styles.contact}>
-        تماس با پشتیبانی: <a href="tel:0123456789">0123456789</a>
+        تماس با پشتیبانی: <a href="tel:02191007083">021-91007083</a>
       </div>
 
       <div className={styles.address}>
-      آدرس
+        تهران، تقاطع خیابان ولیعصر و طالقانی، مجتمع تجاری نور، طبقه همکف سوم تجاری، واحد ۸۰۲۸
       </div>
 
       <div className={styles.links}>
@@ -32,7 +32,7 @@ const Footer = () => {
       </div>
 
       <div className={styles.copyright}>
-        کلیه حقوق این وبسایت متعلق به شرکت .... می‌باشد.
+        کلیه حقوق این وبسایت متعلق به شرکت آینده گستر‌ان زرین وانیا می‌باشد.
       </div>
     </footer>
   );
