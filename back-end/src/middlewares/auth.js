@@ -5,7 +5,10 @@ const debug = require("debug")("app");
 
 //this middleware checks if a valid token exists , set the value of req.user
 async function setReqUser(req, res, next) {
-  const token = req.header("x-auth-token");
+  let token;
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
   if (token) {
     try {
       const decoded = jwt.verify(token, config.get("jwt_key"));
