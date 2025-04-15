@@ -1,7 +1,22 @@
-import React from "react";
-import "./Footer.css";
 
-const Footer: React.FC = () => {
+import styles from "./Footer.module.css";
+import {
+  FaTelegramPlane,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+} from "react-icons/fa";
+import { ReactNode } from "react";
+import { Link } from "react-router";
+
+const links = [
+  { href: "/Information", title: "اطلاعات" },
+  { href: "/Additional features", title: "امکانات اضافی" },
+  { href: "/My account", title: "حساب کاربری من" },
+  { href: "/Questions", title: "پرسش‌های متداول" },
+];
+
+function Footer(): ReactNode {
   return (
     <footer className="footer">
       <div className="footer__logo">
@@ -9,27 +24,34 @@ const Footer: React.FC = () => {
         <h2>kharidino |خریدی نو</h2>
       </div>
 
-      <div className="footer__contact">
-        <p>تماس با پشتیبانی: <a href="tel:021154553">021154553</a></p>
-        <p>نشانی: تهران، </p>
+      <div className={styles.contact}>
+        تماس با پشتیبانی: <Link to="tel:0123456789">0123456789</Link>
       </div>
 
-      <div className="footer__links">
-        <a href="#">اطلاعات</a>
-        <a href="#">امکانات اضافی</a>
-        <a href="#">حساب کاربری من</a>
-        <a href="#">پرسش‌های متداول</a>
+      <div className={styles.address}>
+        آدرس : تهران، تقاطع خیابان ولیعصر و طالقانی، مجتمع تجاری نور، طبقه همکف
+        سوم تجاری، واحد ۸۰۲۸
       </div>
 
-      <div className="footer__social">
-        <p>با ما در ارتباط باشید:</p>
-        <div className="icons">
-         /* <a href="#"><img src="telegram-icon.png" alt="Telegram" /></a>
-          <a href="#"><img src="instagram-icon.png" alt="Instagram" /></a>
-          <a href="#"><img src="aparat-icon.png" alt="Aparat" /></a>
-          <a href="#"><img src="linkedin-icon.png" alt="LinkedIn" /></a>
-          <a href="#"><img src="youtube-icon.png" alt="YouTube" /></a>*/
-        </div>
+      <div className={styles.links}>
+        {links.map((link) => (
+          <Link to={link.href}>{link.title}</Link>
+        ))}
+      </div>
+
+      <div className={styles.socials}>
+        <Link to="#">
+          <FaTelegramPlane />
+        </Link>
+        <Link to="#">
+          <FaInstagram />
+        </Link>
+        <Link to="#">
+          <FaLinkedin />
+        </Link>
+        <Link to="#">
+          <FaYoutube />
+        </Link>
       </div>
 
       <div className="footer__rights">
@@ -37,6 +59,6 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;
