@@ -36,11 +36,11 @@ npm i
 - Create a file named `logfile.log` in the root of the `back-end` directory. This will store application errors.
 
 ### Set Up Upload Directories
-Inside the `public` folder, create the following paths for storing uploaded files:
+create the following paths in the root of the `back-end` directory . these paths are for storing uploaded files:
 ```
-/uploads/images/avatars
-/uploads/images/blogs
-/uploads/images/products
+public/uploads/images/avatars
+public/uploads/images/blogs
+public/uploads/images/products
 ```
 
 ## Running the Server
