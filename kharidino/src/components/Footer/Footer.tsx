@@ -1,3 +1,4 @@
+
 import styles from "./Footer.module.css";
 import {
   FaTelegramPlane,
@@ -17,9 +18,10 @@ const links = [
 
 function Footer(): ReactNode {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.logo}>
-        <img src="/logo.png" alt="kharidino" />
+    <footer className="footer">
+      <div className="footer__logo">
+        <img src="" alt="" />
+        <h2>kharidino |خریدی نو</h2>
       </div>
 
       <div className={styles.contact}>
@@ -52,8 +54,8 @@ function Footer(): ReactNode {
         </Link>
       </div>
 
-      <div className={styles.copyright}>
-        کلیه حقوق این وبسایت متعلق به شرکت .... می‌باشد.
+      <div className="footer__rights">
+        <p>کلیه حقوق این وب‌سایت متعلق به شرکت ... است</p>
       </div>
     </footer>
   );

@@ -63,7 +63,6 @@ module.exports = new (class extends controller {
       sameSite: "Strict", // Helps prevent CSRF attacks
       maxAge: 3600000, // Expires in 1 hour
     });
-    console.log("Set-Cookie header:", res.getHeaders()["set-cookie"]);
     this.response({ res, message: "با موفقیت وارد شدید", data: { token } });
   }
 })();
