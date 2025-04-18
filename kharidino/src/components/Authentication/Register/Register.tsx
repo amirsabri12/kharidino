@@ -6,6 +6,7 @@ type FormData = {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 function SimpleForm() {
@@ -13,15 +14,8 @@ function SimpleForm() {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +24,7 @@ function SimpleForm() {
 
   return (
     <form className={styles["form-container"]} onSubmit={handleSubmit}>
-      <h2>فرم ثبت‌نام</h2>
+      <h2> ثبت‌نام</h2>
 
       <label>نام کاربری</label>
       <input
@@ -61,6 +55,16 @@ function SimpleForm() {
         value={formData.password}
         onChange={(e) =>
           setFormData((old) => ({ ...old, password: e.target.value }))
+        }
+        required
+      />
+      <label>تایید رمز عبور</label>
+      <input
+        type="password"
+        name="confirmPassword"
+        value={formData.confirmPassword}
+        onChange={(e) =>
+          setFormData((old) => ({ ...old, confirmPassword: e.target.value }))
         }
         required
       />
