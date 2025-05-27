@@ -9,6 +9,7 @@ const navItem = [
   { title: "درباره ما", href: "/about" },
   { title: "تماس با ما", href: "/contact" },
   { title: "امکانات پیشرفته", href: "/Advanced features" },
+  { title: "ثبت نام", href: "/Signup" },
 ];
 
 function Header(): ReactNode {
@@ -22,7 +23,7 @@ function Header(): ReactNode {
                 to={item.href}
                 className={({ isActive }) => clsx(isActive && styles.active)}
               >
-                {item.title}{" "}
+                {item.title}
               </NavLink>
             </li>
           ))}

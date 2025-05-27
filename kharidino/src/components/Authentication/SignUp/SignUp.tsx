@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
 
 import styles from "./SignUp.module.css";
 
@@ -9,7 +9,7 @@ type FormData = {
   confirmPassword: string;
 };
 
-function SimpleForm() {
+function SignupForm(): ReactNode {
   const [formData, setFormData] = useState<FormData>({
     username: "",
     email: "",
@@ -74,4 +74,4 @@ function SimpleForm() {
   );
 }
 
-export default SimpleForm;
+export default SignupForm;
