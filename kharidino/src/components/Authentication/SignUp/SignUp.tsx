@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 
-import styles from "./Register.module.css";
+import styles from "./SignUp.module.css";
 
 type FormData = {
   username: string;
