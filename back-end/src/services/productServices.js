@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const deleteFile = require("../helpers/deleteFile");
 const Product = require("../models/product");
+const manageNewProductProperties = require("../helpers/manageNewProductProperties");
+const Property = require("../models/property");
+const Propertyval = require("../models/propertyval");
 
 class ProductServices {
   async getAllProducts(req, res) {
@@ -10,6 +13,43 @@ class ProductServices {
   async seeOneProduct(req, res) {
     // خواندن یک محصول از دیتابیس
     return Product.findById(req.params.productId);
+  }
+
+  async getSingleShopWithProperties(req, res) {
+    const product = await this.seeOneProduct(req, res);
+    if (product && product.properties.length) {
+      product.properties = await Promise.all(
+        product.properties.map(async (item) => {
+          let newProperty = {
+            name: item.name,
+            nameString: item.nameString,
+            values: [],
+          };
+          const property = await Property.findOne({ _id: item.name });
+          newProperty.nameString = property.name;
+          for (let value of item.values) {
+            if (property.specifiedVals) {
+              let newValue = {
+                value: value.value,
+                valueString: null,
+              };
+              const propertyvalue = await Propertyval.findOne({
+                _id: value.value,
+              });
+              newValue.valueString = propertyvalue.value;
+              newProperty.values.push(newValue);
+            } else {
+              let newValue = {
+                valueString: value.valueString,
+              };
+              newProperty.values.push(newValue);
+            }
+          }
+          return newProperty;
+        })
+      );
+    }
+    return product;
   }
 
   async getProductsByCategoryString(string, req, res) {
@@ -43,6 +83,16 @@ class ProductServices {
     if (req.file) {
       newProduct.img = req.file.path.replace(/\\/g, "/").substring(6); //تنظیم آدرس تصویر محصول برای ذخیره در مونگو دی بی
     }
+    if (req.body.properties) {
+      let properties = await manageNewProductProperties(req.body.properties);
+      if (properties && properties.length) {
+        properties = properties.filter((property) => property);
+        newProduct.properties = properties;
+      }
+    } else {
+      newProduct.properties = [];
+    }
+
     return newProduct.save();
   }
 
@@ -53,7 +103,7 @@ class ProductServices {
       name: req.body.name,
       price: req.body.price,
       stock: req.body.stock,
-      categoryId: product.categoryId,
+      categoryId: req.body.categoryId === "" ? null : product.categoryId,
       description: req.body.description,
       img: product.img,
     };

@@ -3,8 +3,8 @@ const debug = require("debug")("app");
 const controller = require("./../controller");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const config = require("config");
 const userServices = require("../../services/userServices");
+const validateRecaptcha = require("../../helpers/validateRecaptcha");
 
 module.exports = new (class extends controller {
   async getRegister(req, res) {
@@ -22,6 +22,16 @@ module.exports = new (class extends controller {
   }
 
   async register(req, res) {
+    const recaptchaResult = await validateRecaptcha(req);
+    //recaptcha wont authorized if environment config 'recaptcha' is false
+    if (!recaptchaResult && process.env.RECAPTCHA === "true") {
+      return this.response({
+        res,
+        code: 400,
+        message: "لطفا ریکپچا را تایید کنید",
+      });
+    }
+
     //same as create user
     const result = await userServices.registerUser(req, res);
     if (result.code === 400) {
@@ -39,6 +49,15 @@ module.exports = new (class extends controller {
   }
 
   async login(req, res) {
+    const recaptchaResult = await validateRecaptcha(req);
+    //recaptcha wont authorized if environment config 'recaptcha' is false
+    if (!recaptchaResult && process.env.RECAPTCHA === "true") {
+      return this.response({
+        res,
+        code: 400,
+        message: "لطفا ریکپچا را تایید کنید",
+      });
+    }
     const user = await this.User.findOne({ email: req.body.email });
     if (!user) {
       return this.response({
@@ -55,13 +74,16 @@ module.exports = new (class extends controller {
         message: "ایمیل یا رمز عبور نامعتبر است",
       });
     }
-    const token = jwt.sign({ _id: user.id }, config.get("jwt_key"));
+    const token = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
     //storing jwt token as a httpOnly cookie
+    const mode = process.env.NODE_ENV;
+
     res.cookie("jwt", token, {
-      httpOnly: true, // Prevent JavaScript access
+      httpOnly: true,
       path: "/",
-      sameSite: "Strict", // Helps prevent CSRF attacks
-      maxAge: 3600000, // Expires in 1 hour
+      secure: mode === "production" ? true : false,
+      sameSite: mode === "production" ? "None" : "Strict",
+      maxAge: 3600000,
     });
     this.response({ res, message: "با موفقیت وارد شدید", data: { token } });
   }

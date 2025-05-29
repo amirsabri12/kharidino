@@ -4,6 +4,8 @@ const deleteFile = require("../../helpers/deleteFile");
 const blogServices = require("../../services/blogServices");
 const categoriesServices = require("../../services/categoriesServices");
 const productServices = require("../../services/productServices");
+const propertyServices = require("../../services/propertyServices");
+const propertyvalServices = require("../../services/propertyvalServices");
 const userServices = require("../../services/userServices");
 const controller = require("./../controller");
 const _ = require("lodash");
@@ -17,8 +19,28 @@ module.exports = new (class extends controller {
     });
   }
 
+  async updateProfile(req, res) {
+    const result = await userServices.adminUpdateProfile(req, res);
+    if (result) {
+      this.response({
+        res,
+        message: " اکانت شما با موفقیت بروزرسانی شد",
+      });
+    } else {
+      if (req.file)
+        //if some files uploaded with this req , delete them
+        deleteFile(req.file.path, req.file.path);
+
+      this.response({
+        res,
+        code: 400,
+        message: "خطا در بروزرسانی",
+      });
+    }
+  }
+
   async getUsers(req, res) {
-    const result = await userServices.getAllUsers();
+    const result = await userServices.getAllUsers(req);
     this.response({
       res,
       message: "this is all users",
@@ -83,15 +105,6 @@ module.exports = new (class extends controller {
     }
   }
 
-  async getCategories(req, res) {
-    const result = await categoriesServices.getAllCategories(req, res);
-    this.response({
-      res,
-      message: "لیست دسته بندی ها",
-      data: result,
-    });
-  }
-
   async createCategory(req, res) {
     const result = await categoriesServices.createCategory(req, res);
     if (result) {
@@ -146,15 +159,6 @@ module.exports = new (class extends controller {
     }
   }
 
-  async getProducts(req, res) {
-    const result = await productServices.getAllProducts(req, res);
-    this.response({
-      res,
-      message: "لیست تمام محصولات",
-      data: result,
-    });
-  }
-
   async seeOneProduct(req, res) {
     const result = await productServices.seeOneProduct(req, res);
     this.response({
@@ -180,6 +184,7 @@ module.exports = new (class extends controller {
       this.response({
         res,
         message: "خطا در ساخت محصول",
+        code: 400,
       });
     }
   }
@@ -289,6 +294,175 @@ module.exports = new (class extends controller {
       this.response({
         res,
         message: "حذف مقاله ناموفق بود",
+        code: 400,
+      });
+    }
+  }
+
+  async getProperties(req, res) {
+    const result = await propertyServices.getAllProperties(req);
+    this.response({
+      res,
+      message: "this is all properties",
+      data: result,
+    });
+  }
+
+  async getPropertiesWithVals(req, res) {
+    const result = await propertyServices.getPropertiesWithVals(req);
+    this.response({
+      res,
+      message: "this is all properties with vals",
+      data: result,
+    });
+  }
+
+  async seeOneProperty(req, res) {
+    const result = await propertyServices.seeOneProperty(req, res);
+    this.response({
+      res,
+      message: "this is property",
+      data: result,
+    });
+  }
+
+  async createProperty(req, res) {
+    const result = await propertyServices.createProperty(req, res);
+    if (result.code === 400) {
+      return this.response({
+        res,
+        message: "یک ویژگی با این نام قبلا ساخته شده است",
+        code: 400,
+      });
+    }
+    this.response({
+      res,
+      message: "ویژگی ساخته شد",
+      data: result.data,
+    });
+  }
+
+  async updateProperty(req, res) {
+    const result = await propertyServices.updateProperty(req, res);
+    if (result) {
+      this.response({
+        res,
+        message: "ویژگی با موفقیت بروزرسانی شد",
+      });
+    } else {
+      this.response({
+        res,
+        message: "بروزرسانی ویژگی ناموفق بود",
+        code: 400,
+      });
+    }
+  }
+
+  async deleteProperty(req, res) {
+    const result = await propertyServices.deleteProperty(req, res);
+    if (result.code === 403) {
+      this.response({
+        res,
+        message: `این ویژگی در محصولات زیر استفاده می شود ${result.productsInUse}`,
+        code: 403,
+      });
+    } else if (result.code === 200) {
+      this.response({
+        res,
+        message: "ویژگی با موفقیت حذف شد",
+      });
+    } else {
+      this.response({
+        res,
+        message: "حذف ویژگی ناموفق بود",
+        code: 400,
+      });
+    }
+  }
+
+  async getPropertyvals(req, res) {
+    const result = await propertyvalServices.getAllPropertyvals(req);
+    this.response({
+      res,
+      message: "this is all propertyvals",
+      data: result,
+    });
+  }
+
+  async getPropertyvalsById(req, res) {
+    const result = await propertyvalServices.getPropertyvalsById(req);
+    this.response({
+      res,
+      message: "this is all propertyvals by id",
+      data: result,
+    });
+  }
+
+  async seeOnePropertyval(req, res) {
+    const result = await propertyvalServices.seeOnePropertyval(req, res);
+    this.response({
+      res,
+      message: "this is propertyval",
+      data: result,
+    });
+  }
+
+  async createPropertyval(req, res) {
+    const result = await propertyvalServices.createPropertyval(req, res);
+    if (result.code === 409) {
+      return this.response({
+        res,
+        message: "این مقدار ویژگی تکراری است",
+        code: 409,
+      });
+    }
+    if (result.code === 400) {
+      return this.response({
+        res,
+        message: "ساخت مقدار ویژگی ناموفق بود",
+        code: 400,
+      });
+    }
+    this.response({
+      res,
+      message: "مقدار ویژگی ساخته شد",
+      data: result.data,
+    });
+  }
+
+  async updatePropertyval(req, res) {
+    const result = await propertyvalServices.updatePropertyval(req, res);
+    if (result) {
+      this.response({
+        res,
+        message: "مقدار ویژگی با موفقیت بروزرسانی شد",
+      });
+    } else {
+      this.response({
+        res,
+        message: "بروزرسانی مقدار ویژگی ناموفق بود",
+        code: 400,
+      });
+    }
+  }
+
+  async deletePropertyval(req, res) {
+    const result = await propertyvalServices.deletePropertyval(req, res);
+    if (result.code === 403) {
+      this.response({
+        res,
+        message: `این مقدار ویژگی در محصولات زیر استفاده می شود ${result.productsInUse}`,
+        code: 403,
+      });
+    } else if (result.code === 200) {
+      this.response({
+        res,
+        message: "مقدار ویژگی با موفقیت حذف شد",
+      });
+    } else {
+      this.response({
+        res,
+        message: "حذف مقدار ویژگی ناموفق بود",
         code: 400,
       });
     }

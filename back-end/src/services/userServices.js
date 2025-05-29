@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
 const User = require("../models/user");
 const _ = require("lodash");
+const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const Cart = require("../models/cart");
 const deleteFile = require("../helpers/deleteFile");
 
 class UserServices {
-  async getAllUsers(req, res) {
-    //reading all users from database
-    return User.find({});
+  async getAllUsers(req) {
+    //reading all users from database except current user that is maybe admin
+    return User.find({ _id: { $ne: req.user.id } });
   }
 
   async seeOneUser(req, res) {
@@ -73,14 +73,92 @@ class UserServices {
     return false;
   }
 
-  //uploading avatar
-  async uploadAvatar(req, res) {
-    let data = {};
+  //update profile
+  async updateProfile(req, res) {
+    let data = {
+      name: req.body.name,
+    };
     if (req.file) {
       deleteFile("public" + req.user.avatar, "public" + req.user.avatar);
       data.avatar = req.file.path.replace(/\\/g, "/").substring(6); //some modifications on file address to store in db
     }
     const updateOp = await User.updateOne({ _id: req.user.id }, { $set: data });
+    if (updateOp.modifiedCount.valueOf() > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  //admin update profile
+  async adminUpdateProfile(req, res) {
+    let data = {
+      name: req.body.name,
+    };
+    if (req.file) {
+      deleteFile("public" + req.user.avatar, "public" + req.user.avatar);
+      data.avatar = req.file.path.replace(/\\/g, "/").substring(6); //some modifications on file address to store in db
+    }
+    const updateOp = await User.updateOne({ _id: req.user.id }, { $set: data });
+    if (updateOp.modifiedCount.valueOf() > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  async verifyUser(req, res) {
+    const updateOp = await User.updateOne(
+      { email: req.user.email },
+      { $set: { verified: true } }
+    );
+    if (updateOp.modifiedCount.valueOf() > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  async createResetPasswordToken(req, res) {
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    const passwordResetToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
+
+    const updateOp = await User.updateOne(
+      { email: req.body.email },
+      {
+        $set: {
+          passwordResetToken: passwordResetToken,
+          passwordResetTokenExpires: passwordResetTokenExpires,
+        },
+      }
+    );
+    if (updateOp.modifiedCount.valueOf() > 0) {
+      return resetToken;
+    }
+    return false;
+  }
+
+  async passwordRestoration(req, res) {
+    const token = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+    const updateOp = await User.updateOne(
+      {
+        passwordResetToken: token,
+        passwordResetTokenExpires: { $gt: Date.now() },
+      },
+      {
+        $set: {
+          password: bcrypt.hashSync(req.body.password, 8),
+          passwordResetToken: null,
+          passwordResetTokenExpires: null,
+        },
+      }
+    );
     if (updateOp.modifiedCount.valueOf() > 0) {
       return true;
     }

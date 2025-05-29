@@ -1,6 +1,0 @@
-{
-  "name": "kharidino",
-  "db":{
-    "address":"mongodb://localhost:27017/kharidino-db"
-  }
-}

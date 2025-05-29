@@ -3,17 +3,16 @@ const debug = require("debug")("app");
 const { validationResult } = require("express-validator");
 const User = require("./../models/user");
 const deleteFile = require("../helpers/deleteFile");
+const serverResponse = require("../helpers/serverResponse");
 module.exports = class {
   constructor() {
     this.User = User; //so we can access the User model in all controllers that extend this controller
   }
 
   //this is the structure of our response to requests
-  response({ res, message, code = 200, data = {} }) {
-    res.status(code).json({
-      message, // عنوان پاسخ
-      data, //جزئیات پاسخ
-    });
+  response({ res, message, code = 200, data }) {
+    const response = serverResponse(message, data);
+    res.status(code).json(response);
   }
 
   //this method checks if we have validation errors then send response & returns false otherwise returns true

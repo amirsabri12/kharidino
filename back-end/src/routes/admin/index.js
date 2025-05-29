@@ -5,10 +5,20 @@ const controller = require("./controller");
 const validator = require("./validator");
 const uploadProductImg = require("../../../upload/uploadProductImg");
 const uploadBlogImg = require("../../../upload/uploadBlogImg");
+const uploadAccountAvatar = require("../../../upload/uploadAccountAvatar");
+const avatarFileToReqBody = require("../../middlewares/avatarFileToReqBody");
 const productFileToReqBody = require("../../middlewares/productFileToReqBody");
 const blogFileToReqBody = require("../../middlewares/blogFileToReqBody");
 
 router.get("/dashboard", controller.dashboard.bind(controller));
+router.put(
+  "/dashboard",
+  uploadAccountAvatar.single("avatar"),
+  avatarFileToReqBody,
+  validator.updateProfileCheck(),
+  controller.validate.bind(controller),
+  controller.updateProfile.bind(controller)
+);
 
 //users
 
@@ -39,7 +49,9 @@ router.post(
   controller.validate.bind(controller),
   controller.createCategory.bind(controller)
 );
-router.get("/dashboard/categories", controller.getCategories.bind(controller));
+
+//list of all categories is in /categories
+
 router.get(
   "/dashboard/categories/:categoryId",
   controller.seeOneCategory.bind(controller)
@@ -57,7 +69,7 @@ router.delete(
 
 //products
 
-router.get("/dashboard/products", controller.getProducts.bind(controller));
+//get all products is in /shop
 
 router.get(
   "/dashboard/products/:productId",
@@ -85,6 +97,72 @@ router.put(
 router.delete(
   "/dashboard/products/:productId",
   controller.deleteProduct.bind(controller)
+);
+
+//properties
+
+router.get("/dashboard/properties", controller.getProperties.bind(controller));
+
+router.get("/dashboard/properties/withvals", controller.getPropertiesWithVals.bind(controller));
+
+router.get(
+  "/dashboard/properties/:propertyId",
+  controller.seeOneProperty.bind(controller)
+);
+
+router.post(
+  "/dashboard/properties",
+  validator.propertyValidator(),
+  controller.validate.bind(controller),
+  controller.createProperty.bind(controller)
+);
+
+router.put(
+  "/dashboard/properties/:propertyId",
+  validator.updatePropertyValidator(),
+  controller.validate.bind(controller),
+  controller.updateProperty.bind(controller)
+);
+
+router.delete(
+  "/dashboard/properties/:propertyId",
+  controller.deleteProperty.bind(controller)
+);
+
+//propertyvals
+
+router.get(
+  "/dashboard/propertyvals",
+  controller.getPropertyvals.bind(controller)
+);
+
+router.get(
+  "/dashboard/propertyvals/filter/:propertyId",
+  controller.getPropertyvalsById.bind(controller)
+);
+
+router.get(
+  "/dashboard/propertyvals/:propertyvalId",
+  controller.seeOnePropertyval.bind(controller)
+);
+
+router.post(
+  "/dashboard/propertyvals",
+  validator.propertyvalValidator(),
+  controller.validate.bind(controller),
+  controller.createPropertyval.bind(controller)
+);
+
+router.put(
+  "/dashboard/propertyvals/:propertyvalId",
+  validator.updatePropertyvalValidator(),
+  controller.validate.bind(controller),
+  controller.updatePropertyval.bind(controller)
+);
+
+router.delete(
+  "/dashboard/propertyvals/:propertyvalId",
+  controller.deletePropertyval.bind(controller)
 );
 
 //blogs
