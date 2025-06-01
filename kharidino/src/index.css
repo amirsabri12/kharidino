@@ -3,12 +3,15 @@
   --color-withe: hsl(200 , 0% , 94% );
 
   --color-surface: var(--color-withe);
+  --color-surface-elevated : hsl(0 , 0% , 97% );
 
   --color-text: var(--colo-black);
 
   --color-primary : hsl(210, 94%, 43%);
   --color-primary-fade : hsl(210, 66%, 66%);
-  --color-primary-hover : hsl(240, 85%, 30%);
+  --color-primary-hover : hsl(215, 90%, 39%);
+
+  --color-Opposite-primary : hsl(230, 0%, 100%);
 
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 5px 2px -1px rgb(0 0 0 / 0.1);
 }
