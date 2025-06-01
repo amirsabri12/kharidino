@@ -1,5 +1,8 @@
 import { FormEvent, ReactNode, useState } from "react";
 
+import TextInput from "../../Text-input/TextInput.tsx";
+import PasswordInput from "../../Password-input/Password-input.tsx";
+
 import styles from "./SignUp.module.css";
 
 type FormData = {
@@ -27,8 +30,8 @@ function SignupForm(): ReactNode {
       <h2> ثبت‌نام</h2>
 
       <label>نام کاربری</label>
-      <input
-        type="text"
+      <TextInput
+          inputType={"text"}
         name="username"
         value={formData.username}
         onChange={(e) =>
@@ -38,8 +41,8 @@ function SignupForm(): ReactNode {
       />
 
       <label>ایمیل</label>
-      <input
-        type="email"
+      <TextInput
+        inputType={"email"}
         name="email"
         value={formData.email}
         onChange={(e) =>
@@ -49,8 +52,7 @@ function SignupForm(): ReactNode {
       />
 
       <label>رمز عبور</label>
-      <input
-        type="password"
+      <PasswordInput
         name="password"
         value={formData.password}
         onChange={(e) =>
@@ -59,8 +61,7 @@ function SignupForm(): ReactNode {
         required
       />
       <label>تایید رمز عبور</label>
-      <input
-        type="password"
+      <PasswordInput
         name="confirmPassword"
         value={formData.confirmPassword}
         onChange={(e) =>
@@ -68,7 +69,6 @@ function SignupForm(): ReactNode {
         }
         required
       />
-
       <button type="submit">ارسال</button>
     </form>
   );
