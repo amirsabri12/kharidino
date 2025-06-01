@@ -5,6 +5,7 @@ import RootLayuots from "./layuots/Layuots.tsx";
 import "./App.css";
 import Home from "./pages/Home/Home.tsx";
 import About from "./pages/About/About.tsx";
+import SignupForm from "./components/Authentication/SignUp/SignUp.tsx";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route element={<RootLayuots />}>
         <Route index element={<Home />} />
         <Route path={"about"} element={<About />} />
+        <Route path={"signup"} element={<SignupForm />} />
       </Route>
     </Routes>
   );
