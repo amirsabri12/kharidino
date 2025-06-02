@@ -60,16 +60,6 @@ function SignupForm(): ReactNode {
         }
         required
       />
-
-      <PasswordInput
-          label={"تایید رمز عبور"}
-        name="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={(e) =>
-          setFormData((old) => ({ ...old, confirmPassword: e.target.value }))
-        }
-        required
-      />
       <button type="submit">ارسال</button>
     </form>
   );
