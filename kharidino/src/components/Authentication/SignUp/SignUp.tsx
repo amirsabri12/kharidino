@@ -30,8 +30,8 @@ function SignupForm(): ReactNode {
       <h2> ثبت‌نام</h2>
 
       <TextInput
-          label={"نام کاربری"}
-          inputType={"text"}
+        label={"نام کاربری"}
+        inputType={"text"}
         name="username"
         value={formData.username}
         onChange={(e) =>
@@ -41,7 +41,7 @@ function SignupForm(): ReactNode {
       />
 
       <TextInput
-          label={"ایمیل"}
+        label={"ایمیل"}
         inputType={"email"}
         name="email"
         value={formData.email}
@@ -52,7 +52,7 @@ function SignupForm(): ReactNode {
       />
 
       <PasswordInput
-          label={"رمز عبور"}
+        label={"رمز عبور"}
         name="password"
         value={formData.password}
         onChange={(e) =>
