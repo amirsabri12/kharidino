@@ -6,9 +6,11 @@ import MingcuteEyeCloseFill from "../../icons/MingcuteEyeCloseFill.tsx";
 
 import styles from './Password-input.module.css'
 
-type Props = ComponentProps<'input'>
+type Props = ComponentProps<'input'> &{
+    label? : string
+}
 
-function PasswordInput({ ...otherPropps} : Props) :ReactNode{
+function PasswordInput({ label , ...otherPropps} : Props) :ReactNode{
 
     const [isVisible , setIsVisible] = useState(false)
 
@@ -18,12 +20,17 @@ function PasswordInput({ ...otherPropps} : Props) :ReactNode{
 
 
     return(
-        <div className={styles['password-input']}>
-            <input type={isVisible === true ? 'email' : 'password'} {...otherPropps} />
+        <div className={styles.password}>
+            <label>{label}</label>
+            <div className={styles['password-input']}>
+                <input type={isVisible === true ? 'email' : 'password'} {...otherPropps} />
 
-            <div className={styles.suffixIcon}>
-                {isVisible === true ? <MingcuteEyeCloseFill onClick={toggleView} />: <MingcuteEye2Line onClick={toggleView}/>}
+                <div className={styles.suffixIcon}>
+                    {isVisible === true ? <MingcuteEyeCloseFill onClick={toggleView}/> :
+                        <MingcuteEye2Line onClick={toggleView}/>}
+                </div>
             </div>
+
         </div>
     )
 }
