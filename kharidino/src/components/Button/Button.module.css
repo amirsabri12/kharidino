@@ -1,6 +1,5 @@
 .button{
   color: var(--color-primary);
-  padding: 0.5rem;
   cursor: pointer;
 
   &.solid{

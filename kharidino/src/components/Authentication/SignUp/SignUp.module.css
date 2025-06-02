@@ -28,13 +28,12 @@
         color: var(--color-Opposite-primary);
 
         width: 100%;
-        padding: 12px;
 
         font-weight: bold;
 
         border: none;
         border-radius: 8px;
-        margin-top: 20px;
+        margin-block-start: 20px;
 
         cursor: pointer;
 
